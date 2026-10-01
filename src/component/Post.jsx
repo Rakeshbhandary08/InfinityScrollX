@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import downloadImg from "../assets/downloads.png"
 
 const Post = ({ data, setPageNo }) => {
   //how to create and manage observer
@@ -23,13 +24,39 @@ const Post = ({ data, setPageNo }) => {
     }
   }, [data]);
 
+  //handle downlaod function
+  async function handleDownload(url){
+    
+    try {
+      const response=await fetch(url)
+      const blob=await response.blob()
+      const blobUrl=URL.createObjectURL(blob)
+  
+      const link=document.createElement("a")
+      link.href=blobUrl
+      link.download="image.jpg"
+  
+      link.click();
+  
+      link.remove()
+  
+      window.URL.revokeObjectURL(blobUrl);
+      
+    } catch (error) {
+       console.log("Download Failed",error.message)
+    }
+  }
+
   return (
     <div className="container">
       <h2>Unlimited Entertainment</h2>
       <div style={{ marginTop: "20px" }} className="container">
         {data.map((item) => {
           return (
-            <img className="image-post" key={item.id} src={item.download_url} />
+            <div className="img-box" key={item.id} >
+            <img className="image-post" src={item.download_url}/>
+            <img className="download-btn" src={downloadImg} onClick={()=>handleDownload(item.download_url)}/>
+            </div>
           );
         })}
       </div>
