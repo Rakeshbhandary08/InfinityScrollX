@@ -11,7 +11,7 @@ const InfiniteScroll = () => {
 
   useEffect(()=>{
     async function fetchData(){
-     let store=await fetch(`https://picsum.photos/v2/list?page=${pageNo}&limit=5`)
+     let store=await fetch(`https://picsum.photos/v2/list?page=${pageNo}&limit=10`)
 
      const response=await store.json()
 
@@ -24,7 +24,7 @@ const InfiniteScroll = () => {
    
   },[pageNo])
   return (
-   <Post data={data}/>
+   <Post data={data} setPageNo={setPageNo}/>
   )
 }
 
